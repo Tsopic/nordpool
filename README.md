@@ -61,6 +61,8 @@ Already using `custom-components/nordpool`? Here's how to switch:
 
 ### Option 1: HACS (Recommended)
 
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Tsopic&repository=nordpool&category=integration)
+
 #### Add Custom Repository
 1. Open HACS in Home Assistant
 2. Click on `Integrations`
