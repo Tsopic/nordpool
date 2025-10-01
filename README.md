@@ -1,14 +1,37 @@
 # Nord Pool integration for Home Assistant
+[![GitHub Release](https://img.shields.io/github/v/release/Tsopic/nordpool)](https://github.com/Tsopic/nordpool/releases)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MAXZPYVPD8XS6)
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/martinkaskj)
 
+> **📢 Actively Maintained Fork**
+> This is an actively maintained fork of the original [custom-components/nordpool](https://github.com/custom-components/nordpool) integration.
+> Originally created by [@hellowlol](https://github.com/hellowlol) and contributors.
+
 Nord Pool is a service provider that operates an electricity market and power system services, including the exchange of electricity on a spot market Nordics and Baltic countries.
 
-This integration provides the spot market (hourly) electricity prices for the Nordic, Baltic and part of Western Europe.
+This integration provides spot market electricity prices for the Nordic, Baltic and part of Western Europe.
 
 The Nordpool sensor provides the current price with today's and tomorrow's prices as attributes. Prices become available around 13:00.
 
 **New in 2025**: As of October 1, 2025, Nord Pool provides 15-minute interval pricing (previously hourly). This integration automatically supports both period types.
+
+## Why This Fork?
+
+| Feature | Original Repo | This Fork |
+|---------|---------------|-----------|
+| 15-minute support | ❌ | ✅ |
+| Active maintenance | ❌ | ✅ |
+| Automated releases | ❌ | ✅ |
+| Issue responses | Slow/None | Fast |
+
+## Migrating from Original Repository
+
+Already using `custom-components/nordpool`? Here's how to switch:
+
+1. Remove the old integration via HACS
+2. Add `https://github.com/Tsopic/nordpool` as a custom HACS repository
+3. Install the new version from the custom repository
+4. Your existing configuration will continue to work unchanged!
 
 [ApexCharts](https://github.com/RomRider/apexcharts-card) card is recommended for visualization of the data in Home Assistant.<br>
 <img src="https://user-images.githubusercontent.com/5879533/210006998-d8ebd401-5a92-471d-9072-4e6b1c69b779.png" width="500"/>
@@ -261,3 +284,9 @@ logger:
     custom_components.nordpool.sensor: debug
     custom_components.nordpool.aio_price: debug
 ```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+Originally forked from [custom-components/nordpool](https://github.com/custom-components/nordpool) by [@hellowlol](https://github.com/hellowlol) and contributors.
