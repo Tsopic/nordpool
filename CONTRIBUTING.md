@@ -199,7 +199,21 @@ List any breaking changes (or write "None")
 1. Maintainers will review your PR
 2. Address any requested changes
 3. Once approved, your PR will be merged
-4. Changes will be included in the next release
+4. **Automatic release**: When merged, if the version in `manifest.json` was bumped, a release will be automatically created
+
+### Release Process
+
+This project uses automated releases:
+
+1. **Bump version** in `custom_components/nordpool/manifest.json`
+2. **Update CHANGELOG.md** following [Keep a Changelog](https://keepachangelog.com/) format
+3. **Create PR** with your changes
+4. **Merge PR**: When merged to master, if the version was bumped:
+   - A git tag is automatically created
+   - A GitHub release is automatically published
+   - The release includes the integration zip file for HACS
+
+**Note**: If you merge a PR without bumping the version, no release will be created. This is intentional for non-release changes like documentation updates.
 
 ## Testing
 
