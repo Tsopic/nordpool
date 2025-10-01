@@ -58,6 +58,10 @@ def stock(d):
 def start_of(d, typ_="hour"):
     if typ_ == "hour":
         return d.replace(minute=0, second=0, microsecond=0)
+    elif typ_ == "15min":
+        # Round down to nearest 15-minute mark (0, 15, 30, 45)
+        quarter = (d.minute // 15) * 15
+        return d.replace(minute=quarter, second=0, microsecond=0)
     elif typ_ == "day":
         return d.replace(hour=0, minute=0, microsecond=0)
 
@@ -74,6 +78,11 @@ def end_of(d, typ_="hour"):
     """Return end our hour"""
     if typ_ == "hour":
         return d.replace(minute=59, second=59, microsecond=999999)
+    elif typ_ == "15min":
+        # Round to end of current 15-minute period
+        quarter = (d.minute // 15) * 15
+        end_minute = quarter + 14
+        return d.replace(minute=end_minute, second=59, microsecond=999999)
     elif typ_ == "day":
         return d.replace(hour=23, minute=59, second=59, microsecond=999999)
 
@@ -124,13 +133,23 @@ def extract_attrs(data) -> dict:
 
     if len(data):
         data = sorted(data, key=itemgetter("start"))
-        offpeak1 = [i.get("value") for i in data[0:8]]
-        peak = [i.get("value") for i in data[8:20]]
-        offpeak2 = [i.get("value") for i in data[20:]]
 
-        d["Peak"] = mean(peak)
-        d["Off-peak 1"] = mean(offpeak1)
-        d["Off-peak 2"] = mean(offpeak2)
+        # Auto-detect period length based on data size
+        # 24 entries = hourly, 96 entries = 15min
+        periods_per_hour = len(data) // 24 if len(data) >= 24 else 1
+
+        # Calculate indices based on period type
+        # Off-peak 1: hours 0-8, Peak: hours 8-20, Off-peak 2: hours 20-24
+        offpeak1_end = 8 * periods_per_hour
+        peak_end = 20 * periods_per_hour
+
+        offpeak1 = [i.get("value") for i in data[0:offpeak1_end]]
+        peak = [i.get("value") for i in data[offpeak1_end:peak_end]]
+        offpeak2 = [i.get("value") for i in data[peak_end:]]
+
+        d["Peak"] = mean(peak) if peak else float("inf")
+        d["Off-peak 1"] = mean(offpeak1) if offpeak1 else float("inf")
+        d["Off-peak 2"] = mean(offpeak2) if offpeak2 else float("inf")
         d["Average"] = mean(items)
         d["Min"] = min(items)
         d["Max"] = max(items)

@@ -97,6 +97,10 @@ INVALID_VALUES = frozenset((None, float("inf")))
 
 DEFAULT_TEMPLATE = "{{0.0|float}}"
 
+# Period types
+PERIOD_HOURLY = "hour"
+PERIOD_15MIN = "15min"
+DEFAULT_PERIOD_TYPE = PERIOD_15MIN
 
 _CENT_MULTIPLIER = 100
 _PRICE_IN = {"kWh": 1000, "MWh": 1, "Wh": 1000 * 1000}

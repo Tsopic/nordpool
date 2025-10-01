@@ -8,10 +8,12 @@ from homeassistant.helpers.template import Template
 
 from . import DOMAIN
 from .sensor import _PRICE_IN, _REGIONS, DEFAULT_TEMPLATE
+from .const import DEFAULT_PERIOD_TYPE, PERIOD_HOURLY, PERIOD_15MIN
 
 regions = sorted(list(_REGIONS.keys()))
 currencys = sorted(list(set(v[0] for k, v in _REGIONS.items())))
 price_types = sorted(list(_PRICE_IN.keys()))
+period_types = [PERIOD_15MIN, PERIOD_HOURLY]  # 15min first (default)
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -56,6 +58,7 @@ class NordpoolFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             vol.Optional("low_price_cutoff", default=1.0): vol.Coerce(float),
             vol.Optional("price_in_cents", default=False): bool,
             vol.Optional("price_type", default="kWh"): vol.In(price_types),
+            vol.Optional("period_type", default=DEFAULT_PERIOD_TYPE): vol.In(period_types),
             vol.Optional("additional_costs", default=""): str,
         }
 
@@ -63,6 +66,7 @@ class NordpoolFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             "region": regions,
             "currency": currencys,
             "price_type": price_types,
+            "period_type": period_types,
             "additional_costs": "{{0.0|float}}",
         }
 

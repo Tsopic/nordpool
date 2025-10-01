@@ -30,6 +30,9 @@ from .const import (
     RANDOM_SECOND,
     DEFAULT_TEMPLATE,
     DEFAULT_REGION,
+    DEFAULT_PERIOD_TYPE,
+    PERIOD_HOURLY,
+    PERIOD_15MIN,
     _PRICE_IN,
     _REGIONS,
     _CURRENTY_TO_CENTS,
@@ -55,6 +58,9 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
         vol.Optional("price_type", default="kWh"): vol.In(list(_PRICE_IN.keys())),
         vol.Optional("price_in_cents", default=False): cv.boolean,
         vol.Optional("additional_costs", default=DEFAULT_TEMPLATE): cv.template,
+        vol.Optional("period_type", default=DEFAULT_PERIOD_TYPE): vol.In(
+            [PERIOD_HOURLY, PERIOD_15MIN]
+        ),
     }
 )
 
@@ -72,6 +78,7 @@ def _dry_setup(hass, config, add_devices, discovery_info=None):
     vat = config.get("VAT")
     use_cents = config.get("price_in_cents")
     ad_template = config.get("additional_costs")
+    period_type = config.get("period_type", DEFAULT_PERIOD_TYPE)
     api = hass.data[DOMAIN]
     sensor = NordpoolSensor(
         friendly_name,
@@ -85,6 +92,7 @@ def _dry_setup(hass, config, add_devices, discovery_info=None):
         api,
         ad_template,
         hass,
+        period_type,
     )
 
     add_devices([sensor])
@@ -122,6 +130,7 @@ class NordpoolSensor(SensorEntity):
         api,
         ad_template,
         hass,
+        period_type=DEFAULT_PERIOD_TYPE,
     ) -> None:
         self._area = area
         self._currency = currency or _REGIONS[area][0]
@@ -134,6 +143,8 @@ class NordpoolSensor(SensorEntity):
         self._api = api
         self._ad_template = ad_template
         self._hass = hass
+        self._period_type = period_type
+        self._detected_period_type = None  # Will be auto-detected from API data
         self._attr_force_update = True
 
         if vat is True:
@@ -310,10 +321,24 @@ class NordpoolSensor(SensorEntity):
         self._average = mean(today)
         self._min = min(today)
         self._max = max(today)
-        self._off_peak_1 = mean(today[0:8])
-        self._off_peak_2 = mean(today[20:])
-        self._peak = mean(today[8:20])
         self._mean = median(today)
+
+        # Auto-detect period type from data length
+        # 24 periods = hourly, 96 periods = 15min
+        periods_per_hour = len(today) // 24 if len(today) >= 24 else 1
+
+        # Calculate indices based on detected period type
+        # Off-peak 1: hours 0-8, Peak: hours 8-20, Off-peak 2: hours 20-24
+        offpeak1_end = 8 * periods_per_hour
+        peak_end = 20 * periods_per_hour
+
+        offpeak1_data = today[0:offpeak1_end]
+        peak_data = today[offpeak1_end:peak_end]
+        offpeak2_data = today[peak_end:]
+
+        self._off_peak_1 = mean(offpeak1_data) if offpeak1_data else None
+        self._peak = mean(peak_data) if peak_data else None
+        self._off_peak_2 = mean(offpeak2_data) if offpeak2_data else None
 
     @property
     def current_price(self) -> float:
@@ -392,6 +417,7 @@ class NordpoolSensor(SensorEntity):
             "current_price": self.current_price,
             "additional_costs_current_hour": self.additional_costs,
             "price_in_cents": self._use_cents,
+            "period_type": self._detected_period_type or self._period_type,
         }
 
     def _add_raw(self, data) -> list:
@@ -419,21 +445,49 @@ class NordpoolSensor(SensorEntity):
     @property
     def tomorrow_valid(self) -> bool:
         """Verify that we have the values for tomorrow."""
-        # this should be checked a better way
-        return len([i for i in self.tomorrow if i not in (None, float("inf"))]) >= 23
+        # Auto-detect expected count based on data length
+        # For hourly: expect 23+ values (accounting for DST)
+        # For 15min: expect 92+ values (96 - 4 for DST tolerance)
+        tomorrow_data = self.tomorrow
+        valid_count = len([i for i in tomorrow_data if i not in (None, float("inf"))])
+
+        # Determine expected minimum based on data length
+        if len(tomorrow_data) >= 90:  # Looks like 15min data
+            return valid_count >= 92
+        else:  # Looks like hourly data
+            return valid_count >= 23
 
     async def _update_current_price(self) -> None:
-        """update the current price (price this hour)"""
+        """update the current price (price this period)"""
         local_now = dt_utils.now()
 
         data = await self._api.today(self._area, self._currency)
         if data:
-            for item in self._someday(data):
-                if item["start"] == start_of(local_now, "hour"):
+            someday_data = self._someday(data)
+
+            # Auto-detect period type from first data entry if available
+            if someday_data and self._detected_period_type is None:
+                first_entry = someday_data[0]
+                period_length = (first_entry["end"] - first_entry["start"]).total_seconds() / 60
+
+                if period_length <= 15:
+                    self._detected_period_type = PERIOD_15MIN
+                    _LOGGER.debug("Auto-detected 15-minute periods for %s", self.name)
+                else:
+                    self._detected_period_type = PERIOD_HOURLY
+                    _LOGGER.debug("Auto-detected hourly periods for %s", self.name)
+
+            # Use detected period type or fall back to configured
+            period_type = self._detected_period_type or self._period_type
+
+            for item in someday_data:
+                if item["start"] == start_of(local_now, period_type):
                     self._current_price = item["value"]
                     _LOGGER.debug(
-                        "Updated %s _current_price %s", self.name, item["value"]
+                        "Updated %s _current_price %s (period: %s)",
+                        self.name, item["value"], period_type
                     )
+                    break
         else:
             _LOGGER.debug("Cant update _update_current_price because it was no data")
 
