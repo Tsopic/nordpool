@@ -1,7 +1,6 @@
 # Nord Pool integration for Home Assistant
 [![GitHub Release](https://img.shields.io/github/v/release/Tsopic/nordpool)](https://github.com/Tsopic/nordpool/releases)
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=flat-square)](https://github.com/hacs/integration)
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MAXZPYVPD8XS6)
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/martinkaskj)
 
 > **📢 Actively Maintained Fork**
