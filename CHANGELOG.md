@@ -11,10 +11,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.19] - 2025-10-01
+
+### Added
+- **SECURITY.md** - Security policy and vulnerability reporting guidelines
+- **CONTRIBUTING.md** - Comprehensive contribution guidelines and development setup
+- **PR template** - Structured pull request template
+- **Issue templates** - Bug report and feature request templates
+- **Dependabot** - Automated dependency updates for pip and GitHub Actions
+- **Link checker workflow** - Automated markdown link validation
+- **Migration guide** - Instructions for users migrating from original repository
+- **Comparison table** - "Why This Fork?" feature comparison
+
 ### Changed
 - Updated documentation to reflect active fork status
-- Updated repository URLs in manifest.json
+- Updated repository URLs in manifest.json to Tsopic/nordpool
+- Updated codeowner from @hellowlol to @Tsopic
 - Added HACS installation instructions for custom repository
+- Dynamic version badge instead of hardcoded version
+- Removed PayPal donation link
+- Updated @hellowlol GitHub links to @Tsopic in attribution
+
+### Fixed
+- Fixed CHANGELOG links for v0.0.17 (now points to original repository)
+- Configured link checker to ignore false positive 403 errors
 
 ## [0.0.18] - 2025-10-01
 
@@ -52,5 +72,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Prior versions maintained by original maintainers at [custom-components/nordpool](https://github.com/custom-components/nordpool)
 - For complete history before v0.0.18, see the [original repository](https://github.com/custom-components/nordpool/releases)
 
-[Unreleased]: https://github.com/Tsopic/nordpool/compare/v0.0.18...HEAD
+[Unreleased]: https://github.com/Tsopic/nordpool/compare/v0.0.19...HEAD
+[0.0.19]: https://github.com/Tsopic/nordpool/compare/v0.0.18...v0.0.19
 [0.0.18]: https://github.com/Tsopic/nordpool/releases/tag/v0.0.18

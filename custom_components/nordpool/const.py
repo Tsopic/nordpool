@@ -15,8 +15,8 @@ _CURRENCY_LIST = ["DKK", "EUR", "NOK", "SEK"]
 CONFIG_SCHEMA = vol.Schema({DOMAIN: vol.Schema({})}, extra=vol.ALLOW_EXTRA)
 
 NAME = DOMAIN
-VERSION = "0.0.18"
-ISSUEURL = "https://github.com/custom-components/nordpool/issues"
+VERSION = "0.0.19"
+ISSUEURL = "https://github.com/Tsopic/nordpool/issues"
 
 
 tzs = {
