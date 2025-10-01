@@ -6,7 +6,7 @@
 
 > **📢 Actively Maintained Fork**
 > This is an actively maintained fork of the original [custom-components/nordpool](https://github.com/custom-components/nordpool) integration with new features and bug fixes.
-> Originally created by [@hellowlol](https://github.com/hellowlol) and contributors.
+> Originally created by [@hellowlol](https://github.com/Tsopic) and contributors.
 
 Nord Pool is a service provider that operates an electricity market and power system services, including the exchange of electricity on a spot market Nordics and Baltic countries.
 
@@ -307,4 +307,4 @@ logger:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Originally forked from [custom-components/nordpool](https://github.com/custom-components/nordpool) by [@hellowlol](https://github.com/hellowlol) and contributors.
+Originally forked from [custom-components/nordpool](https://github.com/custom-components/nordpool) by [@hellowlol](https://github.com/Tsopic) and contributors.
