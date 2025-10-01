@@ -15,12 +15,13 @@ The Nordpool sensor provides the current price with today's and tomorrow's price
 
 ## ✨ What's New in This Fork
 
-**v0.0.18 (Latest)** - October 1, 2025
+**v0.0.19 (Latest)** - October 1, 2025
 - ✅ **15-minute period support** - Nord Pool transitioned from hourly to 15-minute intervals
 - ✅ **Automatic period detection** - Seamlessly handles both period types
 - ✅ **Adaptive calculations** - Peak/off-peak pricing adjusts to data granularity
 - ✅ **Full backward compatibility** - Existing configurations work unchanged
-- ✅ **Automated releases** - Consistent versioning and changelog
+- ✅ **Automated releases** - Releases automatically created when PRs are merged
+- ✅ **Easy installation** - One-click HACS repository addition
 
 See [CHANGELOG.md](CHANGELOG.md) for complete version history.
 
