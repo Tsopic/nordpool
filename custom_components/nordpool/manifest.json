@@ -5,13 +5,13 @@
     "http"
   ],
   "codeowners": [
-    "@hellowlol"
+    "@Tsopic"
   ],
   "config_flow": true,
   "dependencies": [],
-  "documentation": "https://github.com/custom-components/nordpool/",
+  "documentation": "https://github.com/Tsopic/nordpool/",
   "iot_class": "cloud_polling",
-  "issue_tracker": "https://github.com/custom-components/nordpool/issues",
+  "issue_tracker": "https://github.com/Tsopic/nordpool/issues",
   "requirements": [
     "backoff"
   ],

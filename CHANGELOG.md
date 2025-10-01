@@ -5,7 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+> **📢 About This Fork**
+> This is an actively maintained fork of the original [custom-components/nordpool](https://github.com/custom-components/nordpool) integration.
+> Repository: https://github.com/Tsopic/nordpool
+
 ## [Unreleased]
+
+### Changed
+- Updated documentation to reflect active fork status
+- Updated repository URLs in manifest.json
+- Added HACS installation instructions for custom repository
 
 ## [0.0.18] - 2025-10-01
 
