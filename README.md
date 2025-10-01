@@ -1,12 +1,14 @@
 # Nord Pool integration for Home Assistant
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MAXZPYVPD8XS6)
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/2ys3cdCZk)
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/martinkaskj)
 
 Nord Pool is a service provider that operates an electricity market and power system services, including the exchange of electricity on a spot market Nordics and Baltic countries.
 
 This integration provides the spot market (hourly) electricity prices for the Nordic, Baltic and part of Western Europe.
 
 The Nordpool sensor provides the current price with today's and tomorrow's prices as attributes. Prices become available around 13:00.
+
+**New in 2025**: As of October 1, 2025, Nord Pool provides 15-minute interval pricing (previously hourly). This integration automatically supports both period types.
 
 [ApexCharts](https://github.com/RomRider/apexcharts-card) card is recommended for visualization of the data in Home Assistant.<br>
 <img src="https://user-images.githubusercontent.com/5879533/210006998-d8ebd401-5a92-471d-9072-4e6b1c69b779.png" width="500"/>
@@ -56,9 +58,10 @@ mv nordpool-X.Y.Z/custom_components/nordpool/* .
 | Currency             | no       | *Default: local currency* <br> Currency used to fetch the prices from the API.|
 | Include VAT          | no       | *Default: true* <br> Add Value Added Taxes (VAT) or not.|
 | Decimal precision    | no       | *Default: 3* <br> Energy price rounding precision. |
-| Low price percentage | no       | *Default: 1* <br> Percentage of average price to set the low price attribute. <br> IF hour_price < average * low_price_cutoff <br> THEN low_price = True <br> ELSE low_price = False|
+| Low price percentage | no       | *Default: 1* <br> Percentage of average price to set the low price attribute. <br> IF period_price < average * low_price_cutoff <br> THEN low_price = True <br> ELSE low_price = False|
 | Price in cents       | no       | *Default: false* <br> Display price in cents in stead of (for example) Euros.|
 | Energy scale         | no       | *Default: kWh* <br> Price displayed for MWh, kWh or Wh.|
+| Period type          | no       | *Default: 15min* <br> Price period resolution: `15min` for 15-minute intervals or `hour` for hourly. The actual period is auto-detected from API data.|
 | Additional Cost      | no       |  *default `{{0.0\|float}}`* <br> Template to specify additional cost to be added. See [Additional Costs](#additional-costs) for more details.|
 
 ### Option 1: UI
@@ -96,7 +99,7 @@ sensor:
     precision: 3
 
     # Percentage of average price to set the low price attribute
-    # low_price = hour_price < average * low_price_cutoff
+    # low_price = period_price < average * low_price_cutoff
     low_price_cutoff: 0.95
 
     # Display price in cents in stead of (for example) Euros.
@@ -104,6 +107,10 @@ sensor:
 
     # Price displayed for MWh, kWh or Wh
     price_type: kWh
+
+    # Period type: 15min (default) or hour
+    # The actual period is auto-detected from API response
+    period_type: 15min
 
     # Template to specify additional cost to be added to the tariff.
     # The template price is in EUR, DKK, NOK or SEK (not in cents).
@@ -137,8 +144,8 @@ The idea behind `additional_costs` is to allow the users to add costs related to
 - Calculate VAT
 
 There are two special special arguments in that can be used in the template ([in addition to all default from Homeassistant](https://www.home-assistant.io/docs/configuration/templating/)):
-- ```now()```: this always refer to the current hour of the price
-- ```current_price```: price for the current hour. This can be used for example be used to calculate your own VAT or add overhead cost.
+- ```now()```: this always refer to the current period of the price (15-minute or hourly depending on configuration)
+- ```current_price```: price for the current period. This can be used for example be used to calculate your own VAT or add overhead cost.
 
 Note: When configuring Nordpool using the UI, things like VAT and additional costs cannot be changed. If your energy supplier or region changes the additional costs or taxes on a semi-regular basis, the YAML configuration or a helper (example 4) work best.
 
@@ -215,8 +222,9 @@ Add 21% tax and overhead cost stored in a helper
 - ```raw_today```: Array of all values
 - ```raw_tomorrow```: Array of values
 - ```current_price```: What the current price is
-- ```additional_costs_current_hour```: If there is any additional costs this hour
+- ```additional_costs_current_hour```: If there is any additional costs this period
 - ```price_in_cents```: Boolean if prices is in cents
+- ```period_type```: The detected period type (`15min` or `hour`)
 
 ## Actions
 Actions has recently been added. The action will just forward the raw response from the Nordpool API so you can capture the value your are interested in.
