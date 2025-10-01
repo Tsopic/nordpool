@@ -124,4 +124,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Claude Code artifacts
 CLAUDE.md
+logs/
+PR_DESCRIPTION.md
+PR3_REVIEW.md
+*_REVIEW.md
