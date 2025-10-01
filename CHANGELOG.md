@@ -5,7 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+> **📢 About This Fork**
+> This is an actively maintained fork of the original [custom-components/nordpool](https://github.com/custom-components/nordpool) integration.
+> Repository: https://github.com/Tsopic/nordpool
+
 ## [Unreleased]
+
+### Changed
+- Updated documentation to reflect active fork status
+- Updated repository URLs in manifest.json
+- Added HACS installation instructions for custom repository
 
 ## [0.0.18] - 2025-10-01
 
@@ -37,12 +46,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ✅ Handles both hourly and 15-minute API responses
 - ✅ No breaking changes to sensor attributes or behavior
 
-## [0.0.17] - 2024-XX-XX
+## [0.0.17] and Earlier
 
-### Previous Release
-- Prior version maintained by original maintainers
-- For history before 0.0.17, see git commit history
+### Previous Releases
+- Prior versions maintained by original maintainers at [custom-components/nordpool](https://github.com/custom-components/nordpool)
+- For complete history before v0.0.18, see the [original repository](https://github.com/custom-components/nordpool/releases)
 
 [Unreleased]: https://github.com/Tsopic/nordpool/compare/v0.0.18...HEAD
-[0.0.18]: https://github.com/Tsopic/nordpool/compare/v0.0.17...v0.0.18
-[0.0.17]: https://github.com/Tsopic/nordpool/releases/tag/v0.0.17
+[0.0.18]: https://github.com/Tsopic/nordpool/releases/tag/v0.0.18

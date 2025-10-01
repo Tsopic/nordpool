@@ -1,19 +1,28 @@
 # Nord Pool integration for Home Assistant
 [![GitHub Release](https://img.shields.io/github/v/release/Tsopic/nordpool)](https://github.com/Tsopic/nordpool/releases)
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MAXZPYVPD8XS6)
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=flat-square)](https://github.com/hacs/integration)
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/martinkaskj)
 
 > **📢 Actively Maintained Fork**
-> This is an actively maintained fork of the original [custom-components/nordpool](https://github.com/custom-components/nordpool) integration.
-> Originally created by [@hellowlol](https://github.com/hellowlol) and contributors.
+> This is an actively maintained fork of the original [custom-components/nordpool](https://github.com/custom-components/nordpool) integration with new features and bug fixes.
+> Originally created by [@hellowlol](https://github.com/Tsopic) and contributors.
 
 Nord Pool is a service provider that operates an electricity market and power system services, including the exchange of electricity on a spot market Nordics and Baltic countries.
 
-This integration provides spot market electricity prices for the Nordic, Baltic and part of Western Europe.
+This integration provides spot market electricity prices for the Nordic, Baltic and part of Western Europe with support for both **15-minute and hourly intervals**.
 
-The Nordpool sensor provides the current price with today's and tomorrow's prices as attributes. Prices become available around 13:00.
+The Nordpool sensor provides the current price with today's and tomorrow's prices as attributes. Prices become available around 13:00 CET.
 
-**New in 2025**: As of October 1, 2025, Nord Pool provides 15-minute interval pricing (previously hourly). This integration automatically supports both period types.
+## ✨ What's New in This Fork
+
+**v0.0.18 (Latest)** - October 1, 2025
+- ✅ **15-minute period support** - Nord Pool transitioned from hourly to 15-minute intervals
+- ✅ **Automatic period detection** - Seamlessly handles both period types
+- ✅ **Adaptive calculations** - Peak/off-peak pricing adjusts to data granularity
+- ✅ **Full backward compatibility** - Existing configurations work unchanged
+- ✅ **Automated releases** - Consistent versioning and changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for complete version history.
 
 ## Why This Fork?
 
@@ -50,19 +59,27 @@ Already using `custom-components/nordpool`? Here's how to switch:
 
 ## Installation
 
-### Option 1: HACS
+### Option 1: HACS (Recommended)
 
-- Follow [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=custom-components&repository=nordpool&category=integration) and install it
-- Restart Home Assistant
+#### Add Custom Repository
+1. Open HACS in Home Assistant
+2. Click on `Integrations`
+3. Click the three dots in the top right corner
+4. Select `Custom repositories`
+5. Add this repository URL: `https://github.com/Tsopic/nordpool`
+6. Select category: `Integration`
+7. Click `Add`
 
-  *or*
-- Go to `HACS` -> `Integrations`,
-- Select `+`,
-- Search for `nordpool` and install it,
-- Restart Home Assistant
+#### Install Integration
+1. Click `+ Explore & Download Repositories`
+2. Search for `Nord Pool`
+3. Click on it and select `Download`
+4. Restart Home Assistant
+
+**Note**: This is a custom repository fork. Use the URL above instead of searching for the original nordpool integration.
 
 ### Option 2: Manual
-Download the [latest release](https://github.com/custom-components/nordpool/releases)
+Download the [latest release](https://github.com/Tsopic/nordpool/releases)
 
 ```bash
 cd YOUR_HASS_CONFIG_DIRECTORY    # same place as configuration.yaml
@@ -289,4 +306,4 @@ logger:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Originally forked from [custom-components/nordpool](https://github.com/custom-components/nordpool) by [@hellowlol](https://github.com/hellowlol) and contributors.
+Originally forked from [custom-components/nordpool](https://github.com/custom-components/nordpool) by [@hellowlol](https://github.com/Tsopic) and contributors.

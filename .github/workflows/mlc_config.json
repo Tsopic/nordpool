@@ -5,6 +5,18 @@
     },
     {
       "pattern": "^https://my.home-assistant.io"
+    },
+    {
+      "pattern": "^https://www.paypal.com"
+    },
+    {
+      "pattern": "^https://buymeacoffee.com"
+    },
+    {
+      "pattern": "^LICENSE$"
+    },
+    {
+      "pattern": "^/lovelace_example/"
     }
   ],
   "replacementPatterns": [],
